@@ -103,11 +103,11 @@ function PerformancePage() {
   const totalAllTimeHours = Object.values(yearlyHours).reduce((a, b) => a + b, 0);
 
   return (
-    <div className="px-4 py-4 pb-24 sm:p-6 md:pb-8 max-w-6xl mx-auto space-y-6">
+    <div className="p-6 max-w-6xl mx-auto space-y-6">
       {/* Header com seletor de período */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold flex items-center gap-2.5">
+          <h1 className="text-3xl font-bold flex items-center gap-2.5">
             <TrendingUp className="w-7 h-7 text-primary" /> Desempenho
           </h1>
           <p className="text-muted-foreground text-sm mt-0.5">
@@ -332,7 +332,7 @@ function PerformancePage() {
                   formatter={(val: any) => [`${val}h`, "Horas Estudadas"]}
                   contentStyle={{ borderRadius: 8 }}
                 />
-                <Bar dataKey="horas" fill="#0284C7" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="horas" fill="#22c55e" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>

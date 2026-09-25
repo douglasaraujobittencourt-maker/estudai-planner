@@ -11,10 +11,10 @@ function apply(theme: Theme) {
 }
 
 export function useTheme() {
-  const [theme, setThemeState] = useState<Theme>("light");
+  const [theme, setThemeState] = useState<Theme>("dark");
 
   useEffect(() => {
-    const saved = (localStorage.getItem(KEY) as Theme | null) ?? "light";
+    const saved = (localStorage.getItem(KEY) as Theme | null) ?? "dark";
     setThemeState(saved);
     apply(saved);
   }, []);

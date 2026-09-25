@@ -133,7 +133,7 @@ function StudyPage() {
 
 
   return (
-    <div className="px-4 py-4 pb-24 sm:p-6 md:pb-8 max-w-4xl mx-auto space-y-6">
+    <div className="p-6 max-w-4xl mx-auto space-y-6">
       <div>
         <h1 className="text-3xl font-bold">Bora Estudar</h1>
         <p className="text-muted-foreground text-sm">Cronômetro regressivo — você define o tempo. Continua rodando em 2º plano ao navegar entre as abas.</p>

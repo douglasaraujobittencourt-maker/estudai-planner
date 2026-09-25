@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/external-client";
+import { supabase } from "@/integrations/supabase/client";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -291,11 +291,11 @@ function CyclePage() {
   };
 
   return (
-    <div className="px-4 py-4 pb-24 sm:p-6 md:pb-8 max-w-7xl mx-auto space-y-6">
+    <div className="p-6 max-w-7xl mx-auto space-y-6">
       {/* Page Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold flex items-center gap-2">
+          <h1 className="text-3xl font-bold flex items-center gap-2">
             <Repeat className="w-6 h-6 text-primary" /> Panorama Geral do Ciclo de Estudos
           </h1>
           <p className="text-muted-foreground text-sm">

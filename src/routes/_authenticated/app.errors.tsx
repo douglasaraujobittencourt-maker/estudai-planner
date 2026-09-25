@@ -92,10 +92,10 @@ function ErrorsPage() {
   const filteredErrors = errors.filter((e: any) => e.subject_id === selectedSubjectId);
 
   return (
-    <div className="px-4 py-4 pb-24 sm:p-6 md:pb-8 max-w-5xl mx-auto space-y-6">
+    <div className="p-6 max-w-5xl mx-auto space-y-6">
       <div className="flex items-center justify-between flex-wrap gap-3">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold flex items-center gap-2"><BookOpen className="w-6 h-6 text-primary" /> Caderno de Erros</h1>
+          <h1 className="text-3xl font-bold flex items-center gap-2"><BookOpen className="w-6 h-6 text-primary" /> Caderno de Erros</h1>
           <p className="text-muted-foreground text-sm">Cada erro vira aprendizado direcionado. Padrões por banca e tópico.</p>
         </div>
         {selectedSubjectId && (

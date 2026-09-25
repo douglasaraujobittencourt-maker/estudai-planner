@@ -151,18 +151,15 @@ function ReviewsPage() {
 
   // Subject status toggle mutation
   const toggleSubjectStatus = useMutation({
-    mutationFn: async ({ id, newStatus }: { id: string; newStatus: "active" | "finalized" | "pending" }) => {
+    mutationFn: async ({ id, newStatus }: { id: string; newStatus: "active" | "finalized" }) => {
       await setSubjectStatus(id, newStatus);
     },
     onSuccess: (_, variables) => {
       if (variables.newStatus === "finalized") {
         toast.success("Matéria marcada como finalizada! Agora está em Modo Revisão 🎓");
-      } else if (variables.newStatus === "pending") {
-        toast.success("Matéria removida do Modo Revisão e devolvida ao plano ✅");
       } else {
         toast.success("Matéria retornada para Modo Teoria 📘");
       }
-
       qc.invalidateQueries({ queryKey: ["subjects"] });
     },
     onError: (e: any) => toast.error(e.message ?? "Erro ao alterar status da matéria"),
@@ -259,11 +256,11 @@ function ReviewsPage() {
   const selectedCount = Object.keys(selected).length;
 
   return (
-    <div className="px-4 py-4 pb-24 sm:p-6 md:pb-8 max-w-5xl mx-auto space-y-6">
+    <div className="p-6 max-w-5xl mx-auto space-y-6">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold flex items-center gap-2.5">
+          <h1 className="text-3xl font-bold flex items-center gap-2.5">
             <Brain className="w-7 h-7 text-primary" /> Revisões
           </h1>
           <p className="text-muted-foreground text-sm mt-1">
@@ -325,9 +322,9 @@ function ReviewsPage() {
           <Card className="p-6 card-elevated space-y-4 border-l-4 border-l-primary">
             <div className="flex items-center justify-between flex-wrap gap-2">
               <div>
-                <h2 className="text-lg sm:text-xl font-bold flex flex-wrap items-center gap-2">
-                  <RotateCcw className="w-5 h-5 shrink-0 text-primary" />
-                  <span className="min-w-0">Revisões de Hoje (Ciclo Espaçado)</span>
+                <h2 className="text-xl font-bold flex items-center gap-2">
+                  <RotateCcw className="w-5 h-5 text-primary" />
+                  Revisões de Hoje (Ciclo Espaçado)
                 </h2>
                 <p className="text-xs text-muted-foreground mt-0.5">
                   Revisões programadas para hoje pelo ciclo <strong>7, 15, 30 e 60 dias</strong> das aulas finalizadas. Selecione até {MAX_SELECT} para revisar juntas.
@@ -456,9 +453,9 @@ function ReviewsPage() {
           <Card className="p-6 card-elevated space-y-4">
             <div className="flex items-center justify-between flex-wrap gap-2">
               <div>
-                <h2 className="text-lg sm:text-xl font-bold flex flex-wrap items-center gap-2">
-                  <Layers className="w-5 h-5 shrink-0 text-primary" />
-                  <span className="min-w-0">Aulas e Tópicos Finalizados (Cronograma Geral)</span>
+                <h2 className="text-xl font-bold flex items-center gap-2">
+                  <Layers className="w-5 h-5 text-primary" />
+                  Aulas e Tópicos Finalizados (Cronograma Geral)
                 </h2>
                 <p className="text-xs text-muted-foreground mt-0.5">
                   Histórico de todas as aulas que já tiveram o ciclo de revisões disparado.
@@ -678,7 +675,7 @@ function ReviewsPage() {
                       </div>
 
                       {/* Ações rápidas */}
-                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 pt-3 border-t border-border/40">
+                      <div className="flex items-center justify-between gap-2 pt-2 border-t border-border/40">
                         <Button
                           size="sm"
                           variant="outline"
@@ -691,12 +688,12 @@ function ReviewsPage() {
                             });
                             setNewGoalInput(String(goal));
                           }}
-                          className="w-full sm:w-auto justify-center text-xs h-9 px-3 text-muted-foreground hover:text-foreground whitespace-nowrap"
+                          className="text-xs h-8 px-2 text-muted-foreground hover:text-foreground"
                         >
-                          <Pencil className="w-3 h-3 mr-1 shrink-0" /> Meta: {goal}q/sem
+                          <Pencil className="w-3 h-3 mr-1" /> Meta: {goal}q/sem
                         </Button>
 
-                        <div className="grid grid-cols-2 sm:flex sm:items-center gap-2">
+                        <div className="flex items-center gap-1.5">
                           <Button
                             size="sm"
                             variant="ghost"
@@ -705,28 +702,10 @@ function ReviewsPage() {
                                 toggleSubjectStatus.mutate({ id: s.id, newStatus: "active" });
                               }
                             }}
-                            className="w-full sm:w-auto justify-center text-xs h-9 px-2 text-muted-foreground hover:text-amber-600 whitespace-nowrap"
+                            className="text-xs h-8 px-2 text-muted-foreground hover:text-amber-600"
                             title="Voltar para Modo Teoria"
                           >
-                            <RotateCcw className="w-3 h-3 mr-1 shrink-0" /> Voltar p/ Teoria
-                          </Button>
-
-                          <Button
-                            size="sm"
-                            variant="ghost"
-                            onClick={() => {
-                              if (
-                                confirm(
-                                  `Remover "${s.name}" do Modo Revisão? Ela volta para o fluxo normal do plano.`,
-                                )
-                              ) {
-                                toggleSubjectStatus.mutate({ id: s.id, newStatus: "pending" });
-                              }
-                            }}
-                            className="w-full sm:w-auto justify-center text-xs h-9 px-2 text-muted-foreground hover:text-destructive whitespace-nowrap"
-                            title="Remover das Revisões"
-                          >
-                            <Trash2 className="w-3 h-3 mr-1 shrink-0" /> Remover
+                            <RotateCcw className="w-3 h-3 mr-1" /> Voltar p/ Teoria
                           </Button>
 
                           <Button
@@ -738,13 +717,12 @@ function ReviewsPage() {
                                 subjectName: s.name,
                               });
                             }}
-                            className="col-span-2 w-full sm:w-auto justify-center text-xs h-9 px-3 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold whitespace-nowrap"
+                            className="text-xs h-8 px-3 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold"
                           >
-                            <PlusCircle className="w-3.5 h-3.5 mr-1 shrink-0" /> + Questões
+                            <PlusCircle className="w-3.5 h-3.5 mr-1" /> + Questões
                           </Button>
                         </div>
                       </div>
-
                     </Card>
                   );
                 })}

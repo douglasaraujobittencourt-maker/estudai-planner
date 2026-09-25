@@ -13,8 +13,7 @@ export const Route = createFileRoute("/_authenticated/app/pdf-batteries")({
 });
 
 function PdfBatteriesPage() {
-  const [totalInput, setTotalInput] = useState<string>("35");
-  const totalQuestions = Math.min(500, Math.max(1, parseInt(totalInput, 10) || 1));
+  const [totalQuestions, setTotalQuestions] = useState<number>(35);
   const [divisions, setDivisions] = useState<number>(2);
 
   const generateDivisions = (count: number, max: number) => {
@@ -34,11 +33,11 @@ function PdfBatteriesPage() {
   };
 
   return (
-    <div className="px-4 py-4 pb-24 sm:p-6 md:pb-8 max-w-6xl mx-auto space-y-6">
+    <div className="p-6 max-w-6xl mx-auto space-y-6">
       <div>
-        <h1 className="text-2xl sm:text-3xl font-bold flex items-center gap-2">
+        <h1 className="text-3xl font-bold flex items-center gap-2">
           <Layers className="w-8 h-8 text-primary" />
-          Divisão Baterias PDF
+          4 - Divisão Baterias PDF
         </h1>
         <p className="text-muted-foreground text-sm mt-1">
           Divida baterias de questões de PDFs (ex: ímpares/pares ou até 5 divisões) para resolução espaçada.
@@ -55,27 +54,23 @@ function PdfBatteriesPage() {
                 type="number"
                 min={1}
                 max={500}
-                value={totalInput}
-                onChange={(e) => setTotalInput(e.target.value)}
-                onBlur={() => {
-                  if (!totalInput || parseInt(totalInput, 10) < 1) setTotalInput("1");
-                }}
+                value={totalQuestions}
+                onChange={(e) => setTotalQuestions(Math.max(1, parseInt(e.target.value) || 1))}
                 className="mt-1"
               />
             </div>
 
             <div>
               <Label className="font-semibold">Quantidade de Divisões</Label>
-              <div className="flex flex-wrap sm:flex-nowrap gap-2 mt-2">
+              <div className="flex gap-2 mt-2">
                 {[2, 3, 4, 5].map((num) => (
                   <Button
                     key={num}
                     variant={divisions === num ? "default" : "outline"}
                     onClick={() => setDivisions(num)}
-                    className="flex-1 h-auto min-h-[44px] p-2 px-3 flex items-center justify-center text-center whitespace-normal leading-tight"
+                    className="flex-1"
                   >
-                    {`${num} Divisões`}
-
+                    {num === 2 ? "2 Divisões (Ímpar/Par)" : `${num} Divisões`}
                   </Button>
                 ))}
               </div>
