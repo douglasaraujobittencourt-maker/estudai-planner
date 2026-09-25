@@ -5,7 +5,8 @@ import { getProfile, getSubjects, getDueReviews, completeReview, deleteReview, c
 import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
-import { Target, CalendarDays, Brain, TrendingUp, Pencil, Clock, BarChart3, BookOpen, Plus, Trash2, Check, CheckCircle2, RefreshCw, Award } from "lucide-react";
+import { CalendarDays, Brain, TrendingUp, Pencil, Clock, BarChart3, BookOpen, Plus, Trash2, Check, CheckCircle2, RefreshCw, Award } from "lucide-react";
+import inssLogo from "@/assets/inss-logo.webp";
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from "@/components/ui/dialog";
@@ -317,24 +318,19 @@ function Dashboard() {
   const COLORS = ["#0284C7", "#7C3AED", "#15803D", "#D97706", "#DC2626", "#059669", "#4F46E5", "#DB2777"];
 
   return (
-    <div className="p-6 max-w-7xl mx-auto space-y-8">
+    <div className="px-4 py-4 pb-24 sm:p-6 md:pb-8 max-w-7xl mx-auto space-y-8">
       {/* Header */}
-      <div className="flex items-center justify-between flex-wrap gap-4">
-        <div>
-          <h1 className="text-3xl font-bold flex items-center gap-2">
-            Olá, {profile?.display_name || "Estudante"} 👋
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div className="min-w-0">
+          <h1 className="text-2xl sm:text-3xl font-bold flex items-center gap-2 truncate">
+            Olá, {profile?.display_name || "Douglas Araujo"} 👋
           </h1>
-          <p className="text-muted-foreground text-sm mt-1 flex items-center gap-2 font-medium">
-            <Target className="w-4 h-4 text-primary" />
-            <span>{profile?.exam_name || "Técnico do Seguro Social — INSS"}</span>
-            <img 
-              src="/inss-logo.jpeg" 
-              alt="INSS Logo" 
-              className="h-10 w-auto object-contain rounded-md shadow-sm border border-border/40 bg-white p-0.5" 
-            />
+          <p className="text-muted-foreground text-sm mt-1 flex items-center gap-2 font-medium min-w-0">
+            <img src={inssLogo} alt="INSS" className="h-10 w-10 shrink-0 object-contain rounded-lg bg-white border border-border shadow-sm p-0.5" />
+            <span className="truncate">{profile?.exam_name || "Técnico de Seguridade Social"}</span>
           </p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto">
           <Button
             variant="outline"
             onClick={() => {
@@ -345,11 +341,11 @@ function Dashboard() {
               setPagesRead("0");
               setIsAddingSubject(true);
             }}
-            className="flex items-center gap-2"
+            className="flex items-center justify-center gap-2 w-full sm:w-auto"
           >
             <Plus className="w-4 h-4 text-primary" /> Nova Matéria
           </Button>
-          <Link to="/app/study" className="inline-flex items-center gap-2 px-5 py-2 rounded-xl bg-primary text-primary-foreground font-semibold hover:opacity-90 transition shadow-sm text-sm">
+          <Link to="/app/study" className="inline-flex items-center justify-center gap-2 px-5 py-2 rounded-xl bg-primary text-primary-foreground font-semibold hover:opacity-90 transition shadow-sm text-sm w-full sm:w-auto">
             <Clock className="w-4 h-4" /> Registrar Estudo
           </Link>
         </div>
@@ -420,7 +416,7 @@ function Dashboard() {
             <Pencil className="w-3.5 h-3.5 text-muted-foreground group-hover:text-primary transition" />
           </div>
           <div className="mt-3">
-            <div className="text-3xl font-extrabold tracking-tight text-secondary dark:text-foreground">
+            <div className="text-2xl sm:text-3xl font-extrabold tracking-tight leading-tight break-words text-secondary dark:text-foreground">
               {profile?.exam_date === "Pré-edital" || profile?.exam_date === "pre-edital" || !profile?.exam_date ? (
                 "Pré-edital"
               ) : daysLeft !== null ? (
@@ -719,8 +715,8 @@ function Dashboard() {
                   }}
                 />
                 <Legend wrapperStyle={{ fontSize: 11 }} />
-                <Bar dataKey="planejado" name="Planejado" fill="#334155" radius={[4, 4, 0, 0]} />
-                <Bar dataKey="feito" name="Feito" fill="#22c55e" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="planejado" name="Planejado" fill="#94A3B8" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="feito" name="Feito" fill="#0284C7" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>

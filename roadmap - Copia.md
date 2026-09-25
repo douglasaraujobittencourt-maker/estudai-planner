@@ -1,1 +1,0 @@
-- [x] Corrigir erros de typecheck reportados no build-errors.log

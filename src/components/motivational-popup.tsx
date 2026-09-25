@@ -2,16 +2,12 @@ import { useEffect, useState, useCallback } from "react";
 import { X } from "lucide-react";
 
 const FRASES = [
-  "📚 \"Você não estuda para passar, estuda até passar\" — William Douglas",
-  "💪 \"A dor é temporária mas o cargo é para sempre\" — William Douglas",
-  "⏳ \"A diferença entre o sonho e a realidade é apenas a quantidade certa de tempo e trabalho\" — William Douglas",
-  "🏠 Continue! Logo logo você estará trabalhando em home office!",
-  "💰 Não pare! Muito em breve o seu contra-cheque será de 10 mil reais!",
-  "🏥 A sua família terá o melhor plano de saúde!",
-  "❤️ Prossiga. Você vai poder ajudar a sua mãezinha!",
-  "💍 A sua esposa terá orgulho de você!",
-  "🎓 Muito em breve a Rebeca e o Bernardo estarão na melhor escola!",
-  "🎸 Estudar pra quê? Para comprar seus perfumes, guitarras, suas coisinhas...",
+  { emoji: "🏛️", text: "A dor da disciplina é temporária, mas o orgulho da nomeação é para sempre." },
+  { emoji: "⏳", text: "Renunciar a algumas coisas hoje é o preço para conquistar todas as outras amanhã." },
+  { emoji: "🎯", text: "Sua única competição diária é contra a sua vontade de desistir." },
+  { emoji: "📚", text: "Não estude até passar; estude até ser impossível reprovar." },
+  { emoji: "🔄", text: "A aprovação não recompensa o talento, recompensa a constância." },
+  { emoji: "🧱", text: 'A diferença entre o sonho e a realidade é apenas a quantidade certa de tempo e trabalho" — William Douglas' },
 ];
 
 // Intervalo entre popups: entre 4 e 8 minutos (em ms)
@@ -24,7 +20,7 @@ function randomInterval() {
 
 export function MotivationalPopup() {
   const [visible, setVisible] = useState(false);
-  const [frase, setFrase] = useState("");
+  const [current, setCurrent] = useState<{ emoji: string; text: string } | null>(null);
   const [animating, setAnimating] = useState(false);
   const [lastIndex, setLastIndex] = useState(-1);
 
@@ -35,7 +31,7 @@ export function MotivationalPopup() {
       idx = Math.floor(Math.random() * FRASES.length);
     } while (idx === lastIndex && FRASES.length > 1);
     setLastIndex(idx);
-    setFrase(FRASES[idx]);
+    setCurrent(FRASES[idx]);
     setAnimating(false);
     setVisible(true);
   }, [lastIndex]);
@@ -96,9 +92,11 @@ export function MotivationalPopup() {
 
         {/* Conteúdo */}
         <div className="flex items-start gap-2.5 pr-4">
-          <div className="text-xl select-none mt-0.5">🚀</div>
+          <div className="text-2xl select-none mt-0.5 shrink-0" aria-hidden="true">
+            {current?.emoji}
+          </div>
           <p className="text-xs sm:text-sm font-medium leading-relaxed text-foreground">
-            {frase}
+            {current?.text}
           </p>
         </div>
 

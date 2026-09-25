@@ -51,9 +51,9 @@ function EditalPage() {
   const pct = (n: number) => (totals.total ? Math.round((n / totals.total) * 100) : 0);
 
   return (
-    <div className="p-6 max-w-6xl mx-auto space-y-6">
+    <div className="px-4 py-4 pb-24 sm:p-6 md:pb-8 max-w-6xl mx-auto space-y-6">
       <div>
-        <h1 className="text-3xl font-bold flex items-center gap-2">
+        <h1 className="text-2xl sm:text-3xl font-bold flex items-center gap-2">
           <BookOpenCheck className="w-6 h-6 text-primary" /> Edital Verticalizado
         </h1>
         <p className="text-sm text-muted-foreground mt-1">{EDITAL_HEADER}</p>

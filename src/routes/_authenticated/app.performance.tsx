@@ -103,11 +103,11 @@ function PerformancePage() {
   const totalAllTimeHours = Object.values(yearlyHours).reduce((a, b) => a + b, 0);
 
   return (
-    <div className="p-6 max-w-6xl mx-auto space-y-6">
+    <div className="px-4 py-4 pb-24 sm:p-6 md:pb-8 max-w-6xl mx-auto space-y-6">
       {/* Header com seletor de período */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold flex items-center gap-2.5">
+          <h1 className="text-2xl sm:text-3xl font-bold flex items-center gap-2.5">
             <TrendingUp className="w-7 h-7 text-primary" /> Desempenho
           </h1>
           <p className="text-muted-foreground text-sm mt-0.5">
@@ -154,9 +154,9 @@ function PerformancePage() {
           </div>
         </Card>
 
-        <Card className="p-4 card-elevated border-l-4 border-l-sky-500 flex flex-col justify-between">
+        <Card className="p-4 card-elevated border-l-4 border-l-secondary dark:border-l-primary flex flex-col justify-between">
           <div className="text-xs font-medium text-muted-foreground flex items-center gap-1.5">
-            <Target className="w-4 h-4 text-sky-500" /> Questões Feitas
+            <Target className="w-4 h-4 text-secondary dark:text-primary" /> Questões Feitas
           </div>
           <div className="mt-2">
             <div className="text-2xl sm:text-3xl font-extrabold tracking-tight text-foreground">{totalQ}</div>
@@ -288,11 +288,11 @@ function PerformancePage() {
                     {/* Status / Modo */}
                     <td className="py-3 px-3 text-center">
                       {row.study_status === "finalized" ? (
-                        <Badge variant="secondary" className="text-[10px] bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 font-bold">
+                        <Badge variant="secondary" className="bg-primary/15 text-[10px] font-bold text-foreground">
                           🎓 Modo Revisão
                         </Badge>
                       ) : (
-                        <Badge variant="outline" className="text-[10px] text-sky-600 dark:text-sky-400 border-sky-500/30">
+                        <Badge variant="outline" className="border-secondary/30 text-[10px] text-secondary dark:border-primary/40 dark:text-primary">
                           📘 Modo Teoria
                         </Badge>
                       )}
@@ -332,7 +332,7 @@ function PerformancePage() {
                   formatter={(val: any) => [`${val}h`, "Horas Estudadas"]}
                   contentStyle={{ borderRadius: 8 }}
                 />
-                <Bar dataKey="horas" fill="#22c55e" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="horas" fill="#0284C7" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>

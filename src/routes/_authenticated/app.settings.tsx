@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getProfile, updateProfile, resetAllStudyData } from "@/lib/planner-api";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/external-client";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -63,13 +63,13 @@ function SettingsPage() {
   });
 
   return (
-    <div className="p-6 max-w-2xl mx-auto space-y-6">
+    <div className="px-4 py-4 pb-24 sm:p-6 md:pb-8 max-w-2xl mx-auto space-y-6">
       <div>
-        <h1 className="text-3xl font-bold flex items-center gap-2"><Settings2 className="w-6 h-6" /> Configurações</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold flex items-center gap-2"><Settings2 className="w-6 h-6" /> Configurações</h1>
       </div>
       <Card className="p-6 card-elevated space-y-4">
         <div><Label>Nome</Label><Input value={form.display_name} onChange={(e) => setForm({ ...form, display_name: e.target.value })} /></div>
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div><Label>Edital / Concurso</Label><Input value={form.exam_name} onChange={(e) => setForm({ ...form, exam_name: e.target.value })} /></div>
           <div>
             <div className="flex items-center justify-between mb-1">
@@ -129,7 +129,7 @@ function SettingsPage() {
             <div>
               <h3 className="text-sm font-bold text-destructive">Zerar Todos os Dados de Estudo</h3>
               <p className="text-xs text-muted-foreground">
-                Apaga todas as sessões registradas, revisões, páginas lidas das matérias e zera o XP/streak.
+                Apaga todas as sessões registradas, revisões, páginas lidas das matérias e registros de horas.
               </p>
             </div>
             <Button

@@ -133,7 +133,7 @@ function StudyPage() {
 
 
   return (
-    <div className="p-6 max-w-4xl mx-auto space-y-6">
+    <div className="px-4 py-4 pb-24 sm:p-6 md:pb-8 max-w-4xl mx-auto space-y-6">
       <div>
         <h1 className="text-3xl font-bold">Bora Estudar</h1>
         <p className="text-muted-foreground text-sm">Cronômetro regressivo — você define o tempo. Continua rodando em 2º plano ao navegar entre as abas.</p>
@@ -181,7 +181,7 @@ function StudyPage() {
                       <span className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ background: s.color || "#0284C7" }} />
                       <span>{s.name}</span>
                       {s.study_status === "finalized" && (
-                        <span className="text-[10px] bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 px-1.5 py-0.5 rounded-full font-semibold">
+                        <span className="rounded-full bg-primary/15 px-1.5 py-0.5 text-[10px] font-semibold text-foreground">
                           🎓 Modo Revisão
                         </span>
                       )}
@@ -195,7 +195,7 @@ function StudyPage() {
               return sel ? (
                 <div className="flex items-center justify-between mt-1 text-xs text-muted-foreground">
                   <span>📖 Lido: <strong className="text-foreground">{sel.pages_read}</strong> de {sel.pages || 0} pgs</span>
-                  <span className={sel.study_status === "finalized" ? "text-emerald-600 font-semibold" : "text-sky-600 font-semibold"}>
+                  <span className={sel.study_status === "finalized" ? "font-semibold text-primary" : "font-semibold text-secondary dark:text-foreground"}>
                     {sel.study_status === "finalized" ? "🎓 Teoria Finalizada" : "📘 Modo Teoria"}
                   </span>
                 </div>

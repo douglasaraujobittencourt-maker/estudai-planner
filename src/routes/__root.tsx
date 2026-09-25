@@ -18,7 +18,7 @@ import {
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
 import { Toaster } from "sonner";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/external-client";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
@@ -89,14 +89,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "EstudAI" },
-      { name: "description", content: "Ciclo inteligente de estudos, revisões automáticas, caderno de erros e flashcards para concurso público." },
-      { property: "og:title", content: "EstudAI" },
-      { property: "og:description", content: "Ciclo inteligente de estudos, revisões automáticas, caderno de erros e flashcards para concurso público." },
+      { title: "O Plano — Planner de Estudos" },
+      { name: "description", content: "Planner de estudos para o concurso do INSS: ciclo inteligente, revisões automáticas, caderno de erros e flashcards." },
+      { property: "og:title", content: "O Plano — Planner de Estudos" },
+      { property: "og:description", content: "Planner de estudos para o concurso do INSS: ciclo inteligente, revisões automáticas, caderno de erros e flashcards." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "EstudAI" },
-      { name: "twitter:description", content: "Ciclo inteligente de estudos, revisões automáticas, caderno de erros e flashcards para concurso público." },
+      { name: "twitter:title", content: "O Plano — Planner de Estudos" },
+      { name: "twitter:description", content: "Planner de estudos para o concurso do INSS: ciclo inteligente, revisões automáticas, caderno de erros e flashcards." },
       { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/875772a1-1b89-48e2-abfd-9a0f25bfc016/id-preview-114d8b56--8b343b23-7bc5-4caf-b1ed-e6821873d956.lovable.app-1783521686297.png" },
       { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/875772a1-1b89-48e2-abfd-9a0f25bfc016/id-preview-114d8b56--8b343b23-7bc5-4caf-b1ed-e6821873d956.lovable.app-1783521686297.png" },
     ],
@@ -105,8 +105,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: appCss,
       },
-      { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
-      { rel: "alternate icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "icon", href: "/favicon.png", type: "image/png" },
     ],
   }),
   shellComponent: RootShell,
@@ -117,7 +116,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="pt-BR" className="dark">
+    <html lang="en">
       <head>
         <HeadContent />
       </head>

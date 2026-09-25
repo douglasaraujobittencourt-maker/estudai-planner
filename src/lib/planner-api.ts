@@ -1,5 +1,5 @@
 import { localDateStr, addDaysStr } from "./dates";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/external-client";
 
 export type Profile = {
   id: string; display_name: string | null; xp: number; streak_days: number;
@@ -14,23 +14,8 @@ export type Subject = {
 };
 
 export async function getProfile(): Promise<Profile | null> {
-  const [{ data: profileData }, { data: authData }] = await Promise.all([
-    supabase.from("profiles").select("*").maybeSingle(),
-    supabase.auth.getUser(),
-  ]);
-
-  if (!profileData) return null;
-
-  const profile = profileData as any as Profile;
-
-  // Se display_name estiver vazio na tabela profiles, tenta pegar do user_metadata do Auth
-  if (!profile.display_name) {
-    const meta = authData?.user?.user_metadata;
-    profile.display_name =
-      meta?.full_name || meta?.name || meta?.display_name || null;
-  }
-
-  return profile;
+  const { data } = await supabase.from("profiles").select("*").maybeSingle();
+  return data as any;
 }
 
 export async function getSubjects(): Promise<Subject[]> {
@@ -415,35 +400,43 @@ export async function resetAllStudyData() {
   const { data: u } = await supabase.auth.getUser();
   if (!u.user) throw new Error("no user");
 
-  // 1. Apaga todas as sessões de estudo
-  const { error: sessErr } = await supabase.from("study_sessions").delete().eq("user_id", u.user.id);
-  if (sessErr) console.error("Error deleting sessions", sessErr);
+  const uid = u.user.id;
+  const fail = (label: string, error: any) => {
+    if (error) throw new Error(`${label}: ${error.message ?? error}`);
+  };
 
-  // 2. Apaga todas as revisões
-  const { error: revErr } = await supabase.from("reviews").delete().eq("user_id", u.user.id);
-  if (revErr) console.error("Error deleting reviews", revErr);
+  // 1. Apaga todos os registros de estudo
+  fail("sessões", (await supabase.from("study_sessions").delete().eq("user_id", uid)).error);
+  fail("revisões", (await supabase.from("reviews").delete().eq("user_id", uid)).error);
+  fail("flashcards", (await supabase.from("flashcards").delete().eq("user_id", uid)).error);
+  fail("caderno de erros", (await supabase.from("errors").delete().eq("user_id", uid)).error);
 
-  // 3. Apaga flashcards e erros se houver
-  await supabase.from("flashcards").delete().eq("user_id", u.user.id);
-  await supabase.from("errors").delete().eq("user_id", u.user.id);
+  // 2. Zera o progresso do ciclo de estudos (horas feitas e planejadas por matéria)
+  fail("ciclo", (await supabase.from("cycle_slots").update({ done_hours: 0, hours_per_cycle: 1 }).eq("user_id", uid)).error);
 
-  // 4. Reseta páginas lidas, questões e status das matérias para 0 / ativo
-  const { error: subErr } = await supabase.from("subjects").update({
+  // 3. Reseta páginas (totais e lidas), questões, horas semanais e status das matérias
+  fail("matérias", (await supabase.from("subjects").update({
+    pages: 0,
     pages_read: 0,
     total_questions: 0,
+    exam_questions: 0,
+    min_questions: 0,
     maintenance_questions_this_week: 0,
-    study_status: "active",
-  }).eq("user_id", u.user.id);
-  if (subErr) console.error("Error resetting subjects", subErr);
+    planned_hours_per_week: 0,
+    weight: 0,
+    study_status: "pending",
+  }).eq("user_id", uid)).error);
 
-  // 5. Reseta gamificação do perfil (XP, streak, last_study_date)
-  const { error: profErr } = await supabase.from("profiles").update({
+  // 4. Reseta gamificação e metas do perfil
+  fail("perfil", (await supabase.from("profiles").update({
     xp: 0,
     streak_days: 0,
     last_study_date: null,
-  }).eq("id", u.user.id);
-  if (profErr) console.error("Error resetting profile", profErr);
+    weekly_goal_hours: 14,
+    weekly_goal_questions: 100,
+  }).eq("id", uid)).error);
 }
+
 
 export async function updateProfile(patch: { weekly_goal_hours?: number; weekly_goal_questions?: number; display_name?: string; exam_name?: string; exam_date?: string | null; review_intervals?: number[] }) {
   const { data: u } = await supabase.auth.getUser();
@@ -466,5 +459,62 @@ export async function updateProfile(patch: { weekly_goal_hours?: number; weekly_
       return;
     }
     throw e;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Bootstrap: cria perfil + matérias + ciclo caso ainda não existam.
+// Não depende de trigger no banco.
+// ---------------------------------------------------------------------------
+const BASIC_COLOR = "#3B82F6";
+const SPECIFIC_COLOR = "#22C55E";
+
+const DEFAULT_SUBJECTS: { name: string; pages: number; q: number; color: string }[] = [
+  { name: "Língua Portuguesa", pages: 109, q: 344, color: BASIC_COLOR },
+  { name: "Raciocínio Lógico-Matemático", pages: 44, q: 130, color: BASIC_COLOR },
+  { name: "Noções de Informática", pages: 21, q: 71, color: BASIC_COLOR },
+  { name: "Direito Constitucional", pages: 44, q: 130, color: BASIC_COLOR },
+  { name: "Direito Administrativo", pages: 27, q: 83, color: BASIC_COLOR },
+  { name: "Ética no Serviço Público", pages: 12, q: 38, color: BASIC_COLOR },
+  { name: "Seguridade Social", pages: 42, q: 128, color: SPECIFIC_COLOR },
+];
+
+export async function ensureUserBootstrap(): Promise<void> {
+  const { data: auth } = await supabase.auth.getUser();
+  const user = auth?.user;
+  if (!user) return;
+
+  const { data: prof } = await supabase.from("profiles").select("id").eq("id", user.id).maybeSingle();
+  if (!prof) {
+    await supabase.from("profiles").insert({
+      id: user.id,
+      display_name:
+        (user.user_metadata as any)?.display_name ?? (user.email ?? "").split("@")[0],
+      exam_name: "INSS · Técnico do Seguro Social",
+      exam_date: null,
+    } as any);
+  }
+
+  const { data: subs } = await supabase.from("subjects").select("id").limit(1);
+  if (subs && subs.length > 0) return;
+
+  // Seed oficial INSS: TODA conta nova recebe exatamente esta lista,
+  // nesta ordem, com estas páginas, questões e cores.
+  const rows = DEFAULT_SUBJECTS.map((s, i) => ({
+    user_id: user.id,
+    name: s.name,
+    ord: i,
+    pages: s.pages,
+    total_questions: s.q,
+    color: s.color,
+    pages_read: 0,
+    study_status: "pending",
+    weight: 5,
+  }));
+  const { data: created } = await supabase.from("subjects").insert(rows as any).select("id, ord");
+  if (created?.length) {
+    await supabase.from("cycle_slots").insert(
+      created.map((c: any) => ({ user_id: user.id, subject_id: c.id, ord: c.ord, hours_per_cycle: 1, done_hours: 0 })) as any,
+    );
   }
 }

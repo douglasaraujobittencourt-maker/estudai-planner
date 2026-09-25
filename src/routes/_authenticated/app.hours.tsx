@@ -16,9 +16,9 @@ import { toast } from "sonner";
 export const Route = createFileRoute("/_authenticated/app/hours")({
   head: () => ({
     meta: [
-      { title: "Registro de horas — EstudAI" },
+      { title: "Registro de horas — O Plano" },
       { name: "description", content: "Lance data, matéria, tarefa, aula, páginas e tempo de cada sessão de estudo." },
-      { property: "og:title", content: "Registro de horas — EstudAI" },
+      { property: "og:title", content: "Registro de horas — O Plano" },
       { property: "og:description", content: "Lance data, matéria, tarefa, aula, páginas e tempo de cada sessão de estudo." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
@@ -136,7 +136,7 @@ function HoursPage() {
   });
 
   return (
-    <div className="p-6 max-w-7xl mx-auto space-y-6">
+    <div className="px-4 py-4 pb-24 sm:p-6 md:pb-8 max-w-7xl mx-auto space-y-6">
       <div className="flex items-end justify-between flex-wrap gap-3">
         <div>
           <h1 className="text-3xl font-bold">2 · Registro de horas</h1>
