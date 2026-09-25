@@ -1,0 +1,1 @@
+ALTER TABLE public.subjects ADD COLUMN IF NOT EXISTS pages_read integer NOT NULL DEFAULT 0;
