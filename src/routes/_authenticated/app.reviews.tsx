@@ -43,7 +43,6 @@ import {
   Pencil,
   TrendingUp,
 } from "lucide-react";
-import { SubjectIcon } from "@/components/subject-icon";
 import { toast } from "sonner";
 import { useState } from "react";
 
@@ -260,7 +259,7 @@ function ReviewsPage() {
   const selectedCount = Object.keys(selected).length;
 
   return (
-    <div className="app-page max-w-5xl space-y-6">
+    <div className="px-4 py-4 pb-24 sm:p-6 md:pb-8 max-w-5xl mx-auto space-y-6">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
@@ -307,10 +306,10 @@ function ReviewsPage() {
               : "text-muted-foreground hover:text-foreground"
           }`}
         >
-          <GraduationCap className="w-4 h-4 text-primary" />
+          <GraduationCap className="w-4 h-4 text-emerald-500" />
           <span>Modo Revisão</span>
           {finalizedSubjects.length > 0 && (
-            <Badge variant="secondary" className="text-[11px] h-5 px-1.5 font-bold bg-primary/15 text-primary">
+            <Badge variant="secondary" className="text-[11px] h-5 px-1.5 font-bold bg-emerald-500/15 text-emerald-600 dark:text-emerald-400">
               {finalizedSubjects.length} {finalizedSubjects.length === 1 ? "matéria" : "matérias"}
             </Badge>
           )}
@@ -405,7 +404,10 @@ function ReviewsPage() {
                         disabled={atLimit}
                         className="mt-1"
                       />
-                      <SubjectIcon name={r.subject?.name || "Matéria"} size="sm" />
+                      <span
+                        className="w-3 h-3 rounded-full flex-shrink-0 mt-1"
+                        style={{ background: r.subject?.color || "#0284C7" }}
+                      />
                       <div className="flex-1 min-w-0 space-y-1">
                         <div className="flex items-center justify-between gap-1">
                           <span className="font-semibold text-sm truncate">{r.subject?.name}</span>
@@ -436,9 +438,9 @@ function ReviewsPage() {
                               variant="outline"
                               onClick={() => done.mutate({ id: r.id, layer: r.layer })}
                               disabled={done.isPending}
-                              className="h-6 text-xs px-2 hover:bg-primary/10 hover:text-primary"
+                              className="h-6 text-xs px-2 hover:bg-emerald-500/10 hover:text-emerald-600"
                             >
-                              <Check className="w-3 h-3 mr-1 text-primary" /> Fiz
+                              <Check className="w-3 h-3 mr-1 text-emerald-600" /> Fiz
                             </Button>
                           </div>
                         </div>
@@ -486,7 +488,10 @@ function ReviewsPage() {
                     >
                       <div className="flex items-start justify-between gap-3">
                         <div className="flex items-center gap-2 min-w-0">
-                          <SubjectIcon name={group.subjectName} size="sm" />
+                          <span
+                            className="w-3 h-3 rounded-full shrink-0 aspect-square mt-0.5"
+                            style={{ background: group.subjectColor }}
+                          />
                           <div className="min-w-0">
                             <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider block">
                               {group.subjectName}
@@ -540,7 +545,7 @@ function ReviewsPage() {
                               key={layerNum}
                               className={`p-2 rounded-lg border text-center transition relative group ${
                                 isDone
-                                  ? "bg-primary/10 border-primary/30 text-primary"
+                                  ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-700 dark:text-emerald-400"
                                   : isTodayOrPast
                                   ? "bg-amber-500/10 border-amber-500/30 text-amber-700 dark:text-amber-400 font-semibold"
                                   : "bg-card border-border text-muted-foreground"
@@ -590,11 +595,11 @@ function ReviewsPage() {
       {activeTab === "revisao" && (
         <div className="space-y-6">
           {/* Matérias em Modo Revisão */}
-          <Card className="p-6 card-elevated space-y-5 border-l-4 border-l-primary">
+          <Card className="p-6 card-elevated space-y-5 border-l-4 border-l-emerald-500">
             <div className="flex items-center justify-between flex-wrap gap-2">
               <div>
                 <h2 className="text-xl font-bold flex items-center gap-2">
-                  <GraduationCap className="w-6 h-6 text-primary" />
+                  <GraduationCap className="w-6 h-6 text-emerald-500" />
                   Matérias em Modo Revisão (Teoria Concluída)
                 </h2>
                 <p className="text-xs text-muted-foreground mt-0.5">
@@ -602,7 +607,7 @@ function ReviewsPage() {
                 </p>
               </div>
 
-              <Badge variant="secondary" className="bg-primary/15 text-primary font-bold">
+              <Badge variant="secondary" className="bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 font-bold">
                 {finalizedSubjects.length} {finalizedSubjects.length === 1 ? "matéria ativa" : "matérias ativas"}
               </Badge>
             </div>
@@ -637,13 +642,13 @@ function ReviewsPage() {
                             <h3 className="font-bold text-base text-foreground leading-tight">
                               {s.name}
                             </h3>
-                            <span className="text-[11px] text-primary font-semibold flex items-center gap-1 mt-0.5">
+                            <span className="text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold flex items-center gap-1 mt-0.5">
                               <CheckCircle2 className="w-3 h-3" /> Teoria 100% Finalizada
                             </span>
                           </div>
                         </div>
 
-                        <Badge variant="outline" className="text-[10px] border-primary/30 text-primary shrink-0">
+                        <Badge variant="outline" className="text-[10px] border-emerald-500/30 text-emerald-600 dark:text-emerald-400 shrink-0">
                           Revisão Contínua
                         </Badge>
                       </div>
@@ -652,7 +657,7 @@ function ReviewsPage() {
                       <div className="space-y-1.5 p-3 rounded-xl bg-muted/40 border border-border/40">
                         <div className="flex items-center justify-between text-xs">
                           <span className="font-medium text-muted-foreground flex items-center gap-1">
-                            <TrendingUp className="w-3.5 h-3.5 text-primary" />
+                            <TrendingUp className="w-3.5 h-3.5 text-emerald-500" />
                             Questões nesta semana:
                           </span>
                           <span className="font-bold text-foreground">
@@ -733,7 +738,7 @@ function ReviewsPage() {
                                 subjectName: s.name,
                               });
                             }}
-                            className="col-span-2 w-full sm:w-auto justify-center text-xs h-9 px-3 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold whitespace-nowrap"
+                            className="col-span-2 w-full sm:w-auto justify-center text-xs h-9 px-3 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold whitespace-nowrap"
                           >
                             <PlusCircle className="w-3.5 h-3.5 mr-1 shrink-0" /> + Questões
                           </Button>
@@ -782,9 +787,9 @@ function ReviewsPage() {
                       variant="outline"
                       onClick={() => toggleSubjectStatus.mutate({ id: s.id, newStatus: "finalized" })}
                       disabled={toggleSubjectStatus.isPending}
-                      className="text-xs h-8 hover:bg-primary/10 hover:text-primary hover:border-primary/30"
+                      className="text-xs h-8 hover:bg-emerald-500/10 hover:text-emerald-600 hover:border-emerald-500/30"
                     >
-                      <GraduationCap className="w-3.5 h-3.5 mr-1 text-primary" />
+                      <GraduationCap className="w-3.5 h-3.5 mr-1 text-emerald-500" />
                       Marcar como Finalizada
                     </Button>
                   </div>
@@ -862,7 +867,7 @@ function ReviewsPage() {
             <Button
               onClick={() => saveQuickQuestions.mutate()}
               disabled={saveQuickQuestions.isPending}
-              className="bg-primary hover:bg-primary/90 text-primary-foreground"
+              className="bg-emerald-600 hover:bg-emerald-700 text-white"
             >
               Salvar Questões
             </Button>

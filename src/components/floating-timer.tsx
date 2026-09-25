@@ -30,7 +30,7 @@ export function FloatingTimer() {
   return (
     <div className="fixed bottom-24 md:bottom-6 right-4 z-50 flex items-center gap-2 rounded-full bg-card/95 backdrop-blur border border-border shadow-lg px-3 py-2">
       <Timer className="w-4 h-4 text-primary" />
-      <span className="font-mono text-sm font-bold tabular-nums w-14 text-center text-primary">{label}</span>
+      <span className="font-mono text-sm tabular-nums w-14 text-center">{label}</span>
       <button
         onClick={() => (timer.running ? timer.pause() : timer.start())}
         className="p-1.5 rounded-full hover:bg-muted transition-colors"

@@ -2,7 +2,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Flame, Star } from "lucide-react";
-import { SubjectIcon } from "@/components/subject-icon";
 import { IMPORTANCE_GROUPS, weightLabel } from "@/lib/edital-data";
 
 export const Route = createFileRoute("/_authenticated/app/importance")({
@@ -32,7 +31,7 @@ function weightBadge(w: number) {
 
 function ImportancePage() {
   return (
-    <div className="app-page max-w-6xl space-y-6">
+    <div className="px-4 py-4 pb-24 sm:p-6 md:pb-8 max-w-6xl mx-auto space-y-6">
       <div>
         <h1 className="text-2xl sm:text-3xl font-bold flex items-center gap-2">
           <Flame className="w-6 h-6 text-accent" /> Grau de Importância
@@ -46,7 +45,7 @@ function ImportancePage() {
         {IMPORTANCE_GROUPS.map((g) => (
           <Card key={g.id} className="p-5 card-elevated">
             <div className="flex items-center gap-2 mb-4">
-              <SubjectIcon name={g.title} size="sm" />
+              <span className="w-2.5 h-2.5 rounded-full" style={{ background: g.color }} />
               <h2 className="font-semibold">{g.title}</h2>
             </div>
 
@@ -62,12 +61,9 @@ function ImportancePage() {
               {g.rows.map((r, i) => (
                 <li key={i} className="grid grid-cols-[40px_1fr] md:grid-cols-[40px_1fr_150px_110px_160px] gap-2 py-3 items-center text-sm">
                   <div className="text-muted-foreground">{i + 1}</div>
-                  <div className="flex items-center gap-3">
-                    <SubjectIcon name={r.discipline} size="sm" />
-                    <div>
-                      <div className="font-medium">{r.discipline}</div>
-                      <div className="md:hidden text-xs text-muted-foreground mt-0.5">{r.questions} · {r.points}</div>
-                    </div>
+                  <div>
+                    <div className="font-medium">{r.discipline}</div>
+                    <div className="md:hidden text-xs text-muted-foreground mt-0.5">{r.questions} · {r.points}</div>
                   </div>
                   <div className="hidden md:block text-muted-foreground">{r.questions}</div>
                   <div className="hidden md:block text-muted-foreground">{r.points}</div>

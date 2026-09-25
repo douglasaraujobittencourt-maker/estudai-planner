@@ -12,7 +12,6 @@ import { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { SubjectIcon } from "@/components/subject-icon";
 
 export const Route = createFileRoute("/_authenticated/app/cycle")({
   component: CyclePage,
@@ -292,7 +291,7 @@ function CyclePage() {
   };
 
   return (
-    <div className="app-page space-y-6">
+    <div className="px-4 py-4 pb-24 sm:p-6 md:pb-8 max-w-7xl mx-auto space-y-6">
       {/* Page Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
@@ -364,10 +363,10 @@ function CyclePage() {
                   const cycleSlot = cycle.find((slot: any) => slot.subject_id === s.id);
                   const pct = s.pages ? Math.min(100, Math.round(((s.pages_read ?? 0) / s.pages) * 100)) : 0;
                   return (
-                    <div key={s.id} className="p-4 rounded-2xl border border-border bg-card flex flex-col justify-between shadow-sm">
+                    <div key={s.id} className="p-4 rounded-lg border border-border bg-card/60 flex flex-col justify-between border-l-4 hover:border-l-primary transition-all" style={{ borderLeftColor: s.color }}>
                       <div>
                         <div className="flex justify-between items-start gap-1">
-                          <span className="flex items-center gap-2 font-semibold text-sm line-clamp-1" title={s.name}><SubjectIcon name={s.name} size="sm" />{s.name}</span>
+                          <span className="font-semibold text-sm line-clamp-1" title={s.name}>{s.name}</span>
                         </div>
                         <div className="text-[10px] text-muted-foreground mt-1">
                           Progresso: {s.pages_read ?? 0}/{s.pages} pg ({pct}%)
@@ -405,7 +404,7 @@ function CyclePage() {
               Disciplinas finalizadas. Resolva questões periodicamente para manter a retenção dos assuntos.
             </p>
             {finalizedSubjects.length === 0 ? (
-              <div className="text-center py-10 text-sm text-muted-foreground italic flex flex-col items-center justify-center gap-2 border border-dashed border-border rounded-2xl">
+              <div className="text-center py-10 text-sm text-muted-foreground italic flex flex-col items-center justify-center gap-2 border border-dashed border-border rounded-lg">
                 <AlertCircle className="w-6 h-6 text-muted-foreground/60" />
                 <span>Nenhuma matéria concluída para manutenção.</span>
               </div>
@@ -414,10 +413,10 @@ function CyclePage() {
                 {finalizedSubjects.map((s: any) => {
                   const pct = Math.min(100, Math.round((s.maintenance_questions_this_week / s.maintenance_weekly_questions_goal) * 100));
                   return (
-                    <div key={s.id} className="flex items-center justify-between p-2.5 rounded-2xl border border-border bg-card gap-3">
+                    <div key={s.id} className="flex items-center justify-between p-2.5 rounded-lg border border-border bg-card/40 gap-3">
                       <div className="flex-1 min-w-0">
-                         <div className="flex items-center gap-2">
-                           <SubjectIcon name={s.name} size="sm" />
+                        <div className="flex items-center gap-1.5">
+                          <span className="w-2 h-2 rounded-full shrink-0" style={{ background: s.color }} />
                           <span className="font-medium text-xs truncate">{s.name}</span>
                         </div>
                         <div className="mt-1.5 flex items-center gap-2">
@@ -481,9 +480,9 @@ function CyclePage() {
               }
 
               return (
-                <div key={s.id} className={`p-3 rounded-2xl border text-sm flex items-center justify-between gap-4 ${itemBg}`}>
+                <div key={s.id} className={`p-3 rounded-lg border text-sm flex items-center justify-between gap-4 ${itemBg}`}>
                   <div className="flex items-center gap-3">
-                     <SubjectIcon name={s.name} size="sm" />
+                    <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ background: s.color }} />
                     <span className="font-medium text-foreground leading-snug">{s.name}</span>
                   </div>
                   <div className="flex items-center gap-3 shrink-0">

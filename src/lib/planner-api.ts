@@ -467,7 +467,7 @@ export async function updateProfile(patch: { weekly_goal_hours?: number; weekly_
 // Não depende de trigger no banco.
 // ---------------------------------------------------------------------------
 const BASIC_COLOR = "#3B82F6";
-const SPECIFIC_COLOR = "#F97316";
+const SPECIFIC_COLOR = "#22C55E";
 
 const DEFAULT_SUBJECTS: { name: string; pages: number; q: number; color: string }[] = [
   { name: "Língua Portuguesa", pages: 109, q: 344, color: BASIC_COLOR },

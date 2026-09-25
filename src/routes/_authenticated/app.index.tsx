@@ -5,8 +5,8 @@ import { getProfile, getSubjects, getDueReviews, completeReview, deleteReview, c
 import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
-import { CalendarDays, Brain, TrendingUp, Pencil, Clock, BarChart3, BookOpen, Plus, Trash2, Check, CheckCircle2, RefreshCw, Award, ChevronRight } from "lucide-react";
-import { SubjectIcon } from "@/components/subject-icon";
+import { CalendarDays, Brain, TrendingUp, Pencil, Clock, BarChart3, BookOpen, Plus, Trash2, Check, CheckCircle2, RefreshCw, Award } from "lucide-react";
+import inssLogo from "@/assets/inss-logo.webp";
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from "@/components/ui/dialog";
@@ -71,6 +71,7 @@ function Dashboard() {
   const monthStart = localDateStr(new Date(now.getFullYear(), now.getMonth(), 1));
 
   const qc = useQueryClient();
+
   const refreshAllData = async () => {
     await Promise.all([
       qc.invalidateQueries({ queryKey: ["subjects"] }),
@@ -314,82 +315,88 @@ function Dashboard() {
     }
   };
 
-  const COLORS = ["#0284C7", "#7C3AED", "#F97316", "#EA580C", "#DC2626", "#2563EB", "#4F46E5", "#DB2777"];
+  const COLORS = ["#0284C7", "#7C3AED", "#15803D", "#D97706", "#DC2626", "#059669", "#4F46E5", "#DB2777"];
 
   return (
-    <div className="app-page space-y-6">
-      <div>
-        <p className="text-xs font-bold uppercase text-primary">Visão geral</p>
-        <h1 className="text-3xl sm:text-4xl font-black">Foco no seu objetivo</h1>
-        <p className="text-muted-foreground text-sm">{profile?.exam_name || "INSS – Técnico do Seguro Social"}</p>
-      </div>
-
-      <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
-        <Button
-          variant="outline"
-          onClick={() => {
-            setName("");
-            setColor("#0284C7");
-            setPlannedHours("8");
-            setPages("100");
-            setPagesRead("0");
-            setIsAddingSubject(true);
-          }}
-          className="flex items-center justify-center gap-2 w-full sm:w-auto rounded-xl"
-        >
-          <Plus className="w-4 h-4 text-primary" /> Nova Matéria
-        </Button>
-        <Link to="/app/study" className="inline-flex items-center justify-center gap-2 px-5 py-2 rounded-xl bg-primary text-primary-foreground font-semibold hover:opacity-90 transition shadow-sm text-sm w-full sm:w-auto">
-          <Clock className="w-4 h-4" /> Registrar Estudo
-        </Link>
+    <div className="px-4 py-4 pb-24 sm:p-6 md:pb-8 max-w-7xl mx-auto space-y-8">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div className="min-w-0">
+          <h1 className="text-2xl sm:text-3xl font-bold flex items-center gap-2 truncate">
+            Olá, {profile?.display_name || "Douglas Araujo"} 👋
+          </h1>
+          <p className="text-muted-foreground text-sm mt-1 flex items-center gap-2 font-medium min-w-0">
+            <img src={inssLogo} alt="INSS" className="h-10 w-10 shrink-0 object-contain rounded-lg bg-white border border-border shadow-sm p-0.5" />
+            <span className="truncate">{profile?.exam_name || "Técnico de Seguridade Social"}</span>
+          </p>
+        </div>
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto">
+          <Button
+            variant="outline"
+            onClick={() => {
+              setName("");
+              setColor("#0284C7");
+              setPlannedHours("8");
+              setPages("100");
+              setPagesRead("0");
+              setIsAddingSubject(true);
+            }}
+            className="flex items-center justify-center gap-2 w-full sm:w-auto"
+          >
+            <Plus className="w-4 h-4 text-primary" /> Nova Matéria
+          </Button>
+          <Link to="/app/study" className="inline-flex items-center justify-center gap-2 px-5 py-2 rounded-xl bg-primary text-primary-foreground font-semibold hover:opacity-90 transition shadow-sm text-sm w-full sm:w-auto">
+            <Clock className="w-4 h-4" /> Registrar Estudo
+          </Link>
+        </div>
       </div>
 
       {/* QUADRO DE DESTAQUE PRINCIPAL (CAMPOS SOLICITADOS) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* 1. Percentual Coberto do Edital */}
-        <Card className="p-5 card-elevated flex flex-col justify-between">
+        <Card className="p-5 card-elevated border-l-4 border-l-secondary flex flex-col justify-between">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
-              <BookOpen className="w-4 h-4 text-primary" /> % Coberto do Edital
+            <span className="text-xs font-semibold text-muted-foreground flex items-center gap-1.5">
+              <BookOpen className="w-4 h-4 text-secondary" /> % Coberto do Edital
             </span>
-            <Badge className="text-xs font-bold bg-primary/10 text-primary border-0">
+            <Badge variant="secondary" className="text-xs font-bold">
               {totalPdfPagesRead}/{totalPdfPages} pgs
             </Badge>
           </div>
           <div className="mt-3">
-            <div className="text-3xl font-extrabold tracking-tight text-primary">{totalPdfPct}%</div>
+            <div className="text-3xl font-extrabold tracking-tight text-secondary dark:text-foreground">{totalPdfPct}%</div>
             <Progress value={totalPdfPct} className="h-2 mt-2" />
           </div>
         </Card>
 
         {/* 2. Horas Estudadas no Dia */}
-        <Card className="p-5 card-elevated flex flex-col justify-between">
+        <Card className="p-5 card-elevated border-l-4 border-l-secondary flex flex-col justify-between">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
-              <Clock className="w-4 h-4 text-primary" /> Horas Estudadas Hoje
+            <span className="text-xs font-semibold text-muted-foreground flex items-center gap-1.5">
+              <Clock className="w-4 h-4 text-secondary" /> Horas Estudadas Hoje
             </span>
             <Badge variant="outline" className="text-[10px]">
               {todaySessions.length} sessões
             </Badge>
           </div>
           <div className="mt-3">
-            <div className="text-3xl font-extrabold tracking-tight text-primary">{todayHours}h</div>
-            <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1">Registradas hoje</p>
+            <div className="text-3xl font-extrabold tracking-tight text-secondary dark:text-foreground">{todayHours}h</div>
+            <p className="text-[11px] text-muted-foreground mt-1">Registradas hoje</p>
           </div>
         </Card>
 
         {/* 3. Horas Estudadas na Semana */}
-        <Card className="p-5 card-elevated flex flex-col justify-between">
+        <Card className="p-5 card-elevated border-l-4 border-l-secondary flex flex-col justify-between">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
-              <TrendingUp className="w-4 h-4 text-primary" /> Horas na Semana
+            <span className="text-xs font-semibold text-muted-foreground flex items-center gap-1.5">
+              <TrendingUp className="w-4 h-4 text-secondary" /> Horas na Semana
             </span>
             <Badge variant="outline" className="text-[10px]">
               Meta: {goalH}h
             </Badge>
           </div>
           <div className="mt-3">
-            <div className="text-3xl font-extrabold tracking-tight text-blue-700 dark:text-orange-400">{weekHours}h</div>
+            <div className="text-3xl font-extrabold tracking-tight text-secondary dark:text-foreground">{weekHours}h</div>
             <Progress value={Math.min(100, (weekHours / goalH) * 100)} className="h-2 mt-2" />
           </div>
         </Card>
@@ -400,16 +407,16 @@ function Dashboard() {
             setExamDateInput(profile?.exam_date || "Pré-edital");
             setIsEditingExamDate(true);
           }}
-          className="p-5 rounded-2xl border-0 shadow-md bg-white dark:bg-slate-900 flex flex-col justify-between cursor-pointer hover:shadow-lg transition group"
+          className="p-5 card-elevated border-l-4 border-l-secondary flex flex-col justify-between cursor-pointer hover:border-primary/50 transition group"
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
-              <CalendarDays className="w-4 h-4 text-blue-600 dark:text-orange-400" /> Dias para a Prova
+            <span className="text-xs font-semibold text-muted-foreground flex items-center gap-1.5">
+              <CalendarDays className="w-4 h-4 text-secondary" /> Dias para a Prova
             </span>
             <Pencil className="w-3.5 h-3.5 text-muted-foreground group-hover:text-primary transition" />
           </div>
           <div className="mt-3">
-            <div className="text-2xl sm:text-3xl font-extrabold tracking-tight leading-tight break-words text-blue-700 dark:text-orange-400">
+            <div className="text-2xl sm:text-3xl font-extrabold tracking-tight leading-tight break-words text-secondary dark:text-foreground">
               {profile?.exam_date === "Pré-edital" || profile?.exam_date === "pre-edital" || !profile?.exam_date ? (
                 "Pré-edital"
               ) : daysLeft !== null ? (
@@ -418,7 +425,7 @@ function Dashboard() {
                 "Pré-edital"
               )}
             </div>
-            <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1 truncate">
+            <p className="text-[11px] text-muted-foreground mt-1 truncate">
               {profile?.exam_date && profile.exam_date !== "Pré-edital" && profile.exam_date !== "pre-edital" && !isNaN(new Date(profile.exam_date + "T00:00:00").getTime())
                 ? new Date(profile.exam_date + "T00:00:00").toLocaleDateString("pt-BR")
                 : "Fase Pré-edital"}
@@ -427,15 +434,28 @@ function Dashboard() {
         </Card>
       </div>
 
-
-      {/* SEÇÃO: TAREFAS DE HOJE (revisões do ciclo espaçado 7, 15, 30 e 60 dias) */}
-      <Card className="p-4 sm:p-5 rounded-2xl border-0 shadow-md bg-white dark:bg-slate-900 space-y-3">
-        <div className="flex items-center justify-between gap-2 flex-wrap">
-          <h2 className="text-base font-bold text-slate-800 dark:text-white">Tarefas de hoje</h2>
-          <div className="flex items-center gap-2">
-            <Badge className="rounded-full border-0 bg-blue-100 text-blue-700 dark:bg-orange-500/15 dark:text-orange-400 text-xs font-semibold">
-              {dueReviews.length} {dueReviews.length === 1 ? "tarefa" : "tarefas"}
-            </Badge>
+      {/* SEÇÃO: REVISÕES DO DIA (Ciclo Espaçado: 7, 15, 30 e 60 dias) */}
+      <Card className="p-5 card-elevated border-l-4 border-l-primary space-y-4">
+        <div className="flex items-center justify-between flex-wrap gap-2">
+          <div className="flex items-center gap-2.5">
+            <div className="p-2 rounded-xl bg-primary/10 text-primary">
+              <Brain className="w-5 h-5" />
+            </div>
+            <div>
+              <h2 className="text-lg font-bold flex items-center gap-2">
+                Revisões do Dia
+                {dueReviews.length > 0 && (
+                  <Badge variant="default" className="text-xs">
+                    {dueReviews.length} {dueReviews.length === 1 ? "pendente" : "pendentes"}
+                  </Badge>
+                )}
+              </h2>
+              <p className="text-xs text-muted-foreground mt-0.5">
+                Revisões programadas para hoje pelo ciclo espaçado (7, 15, 30 e 60 dias).
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center gap-3">
             {dueReviews.length > 0 && (
               <Button
                 variant="ghost"
@@ -448,55 +468,80 @@ function Dashboard() {
                 disabled={clearOldReviews.isPending}
                 className="text-xs text-muted-foreground hover:text-destructive flex items-center gap-1 h-7"
               >
-                <Trash2 className="w-3.5 h-3.5" /> Limpar
+                <Trash2 className="w-3.5 h-3.5" /> Limpar todas
               </Button>
             )}
-            <Link to="/app/reviews" className="text-xs font-semibold text-blue-600 dark:text-orange-400 hover:underline">
-              Ver todas
+            <Link
+              to="/app/reviews"
+              className="text-xs font-semibold text-primary hover:underline flex items-center gap-1"
+            >
+              Ver todas →
             </Link>
           </div>
         </div>
 
         {dueReviews.length > 0 ? (
-          <ul className="divide-y divide-slate-100 dark:divide-slate-800">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
             {dueReviews.map((r: any) => {
               const layerLabel = getReviewLayerLabel(r.layer);
               return (
-                <li key={r.id} className="py-3 grid grid-cols-[auto_auto_minmax(0,1fr)_auto] items-center gap-3">
-                  <button
-                    onClick={() => doneReview.mutate({ id: r.id, layer: r.layer })}
-                    disabled={doneReview.isPending}
-                    aria-label="Concluir tarefa"
-                    className="w-8 h-8 shrink-0 rounded-full border-2 border-slate-300 dark:border-slate-600 grid place-items-center text-transparent hover:border-blue-600 hover:text-blue-600 dark:hover:border-orange-500 dark:hover:text-orange-500 transition-colors"
-                  >
-                    <Check className="w-4 h-4" />
-                  </button>
-                  <SubjectIcon name={r.subject?.name || "Matéria"} />
-                  <div className="min-w-0">
-                    <p className="font-semibold text-sm text-slate-800 dark:text-white truncate">{r.subject?.name}</p>
-                    <p className="text-xs text-slate-500 dark:text-slate-400 truncate">{r.topic || layerLabel}</p>
+                <div
+                  key={r.id}
+                  className="p-3.5 rounded-xl border bg-card/60 hover:bg-muted/30 transition flex flex-col justify-between space-y-3 shadow-sm"
+                >
+                  <div className="space-y-1.5">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="font-semibold text-sm flex items-center gap-1.5 truncate">
+                        <span
+                          className="w-2.5 h-2.5 rounded-full flex-shrink-0"
+                          style={{ background: r.subject?.color || "#0284C7" }}
+                        />
+                        <span className="truncate">{r.subject?.name}</span>
+                      </span>
+                      <Badge variant="secondary" className="text-[11px] font-bold shrink-0">
+                        {layerLabel}
+                      </Badge>
+                    </div>
+                    {r.topic && (
+                      <p className="text-xs text-muted-foreground line-clamp-2">
+                        📝 {r.topic}
+                      </p>
+                    )}
                   </div>
-                  <div className="flex items-center gap-2 shrink-0">
-                    <span className="hidden xs:flex items-center gap-1 text-xs text-slate-500 dark:text-slate-400">
-                      <Clock className="w-3.5 h-3.5" /> {layerLabel}
+
+                  <div className="flex items-center justify-between pt-2 border-t border-border/40">
+                    <span className="text-[11px] text-muted-foreground">
+                      Data: {r.next_review_date}
                     </span>
-                    <button
-                      onClick={() => delReview.mutate(r.id)}
-                      disabled={delReview.isPending}
-                      title="Descartar revisão"
-                      className="p-1.5 rounded-lg text-muted-foreground hover:text-destructive"
-                    >
-                      <Trash2 className="w-3.5 h-3.5" />
-                    </button>
-                    <ChevronRight className="w-4 h-4 text-slate-400" />
+                    <div className="flex items-center gap-1.5">
+                      <Button
+                        size="icon"
+                        variant="ghost"
+                        onClick={() => delReview.mutate(r.id)}
+                        disabled={delReview.isPending}
+                        className="h-7 w-7 text-muted-foreground hover:text-destructive"
+                        title="Descartar revisão"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => doneReview.mutate({ id: r.id, layer: r.layer })}
+                        disabled={doneReview.isPending}
+                        className="h-7 text-xs flex items-center gap-1 px-2.5 font-medium hover:bg-emerald-500/10 hover:text-emerald-600 hover:border-emerald-500/30"
+                      >
+                        <Check className="w-3.5 h-3.5 text-emerald-600" /> Fiz
+                      </Button>
+                    </div>
                   </div>
-                </li>
+                </div>
               );
             })}
-          </ul>
+          </div>
         ) : (
           <div className="py-6 px-4 rounded-xl border border-dashed border-border/60 bg-muted/20 text-center flex flex-col items-center justify-center gap-1.5">
-            <CheckCircle2 className="w-6 h-6 text-primary/80 mb-1" />
+            <CheckCircle2 className="w-6 h-6 text-emerald-500/80 mb-1" />
             <p className="text-sm font-semibold text-foreground">Não há revisões a serem feitas</p>
             <p className="text-xs text-muted-foreground">
               Você está em dia com todas as revisões do cronograma de hoje! Novas revisões aparecerão automaticamente quando chegar o dia.
@@ -504,7 +549,6 @@ function Dashboard() {
           </div>
         )}
       </Card>
-
 
       {/* Tabela: Progresso de Leitura de PDFs */}
       <Card className="p-6 card-elevated space-y-4">
@@ -543,12 +587,12 @@ function Dashboard() {
                 <tr key={row.id} className="hover:bg-muted/30 transition">
                   <td className="py-2.5 px-3 font-semibold">
                     <div className="flex items-center gap-2">
-                       <SubjectIcon name={row.name} size="sm" />
+                      <span className="w-2.5 h-2.5 rounded-full shrink-0 aspect-square" style={{ background: row.color }} />
                       <span>{row.name}</span>
                     </div>
                   </td>
                   <td className="py-2.5 px-3 text-right">{row.totalPages}</td>
-                  <td className="py-2.5 px-3 text-right font-medium text-primary">{row.pagesRead}</td>
+                  <td className="py-2.5 px-3 text-right font-medium text-emerald-600 dark:text-emerald-400">{row.pagesRead}</td>
                   <td className="py-2.5 px-3 text-right text-amber-600 dark:text-amber-400">{row.pagesRemaining}</td>
                   <td className="py-2.5 px-3 text-right font-bold">{row.pct}%</td>
                   <td className="py-2.5 px-3 text-right">{row.readingHours.toFixed(1)}</td>
@@ -564,7 +608,7 @@ function Dashboard() {
               <tr className="bg-muted/60 font-bold border-t">
                 <td className="py-3 px-3">TOTAL</td>
                 <td className="py-3 px-3 text-right">{totalPdfPages}</td>
-                <td className="py-3 px-3 text-right text-primary">{totalPdfPagesRead}</td>
+                <td className="py-3 px-3 text-right text-emerald-600 dark:text-emerald-400">{totalPdfPagesRead}</td>
                 <td className="py-3 px-3 text-right text-amber-600 dark:text-amber-400">{totalPdfPagesRemaining}</td>
                 <td className="py-3 px-3 text-right text-primary">{totalPdfPct}%</td>
                 <td className="py-3 px-3 text-right">{totalPdfReadingHours.toFixed(1)}</td>
@@ -611,7 +655,7 @@ function Dashboard() {
                     <tr key={row.id} className="hover:bg-muted/30 transition">
                       <td className="py-2.5 px-3 font-semibold">
                         <div className="flex items-center gap-2">
-                           <SubjectIcon name={row.name} size="sm" />
+                          <span className="w-2.5 h-2.5 rounded-full shrink-0 aspect-square" style={{ background: row.color }} />
                           <span>{row.name} <span className="text-xs text-muted-foreground font-mono">({row.sigla})</span></span>
                         </div>
                       </td>
@@ -630,7 +674,7 @@ function Dashboard() {
                           <span className="text-xs text-muted-foreground">h</span>
                         </div>
                       </td>
-                      <td className="py-2.5 px-3 text-right font-medium text-primary">{row.feito.toFixed(1)}</td>
+                      <td className="py-2.5 px-3 text-right font-medium text-emerald-600 dark:text-emerald-400">{row.feito.toFixed(1)}</td>
                       <td className="py-2.5 px-3 text-right text-amber-600 dark:text-amber-400">{row.restante.toFixed(1)}</td>
                       <td className="py-2.5 px-3 text-center">
                         <button onClick={() => openEditSubject(row)} className="p-1 rounded hover:bg-muted" aria-label="Editar">
@@ -643,7 +687,7 @@ function Dashboard() {
                 <tr className="bg-muted/60 font-bold border-t">
                   <td className="py-3 px-3">TOTAL</td>
                   <td className="py-3 px-3 text-right">{totalWeeklyPlanned.toFixed(1)}</td>
-                  <td className="py-3 px-3 text-right text-primary">{totalWeeklyDone.toFixed(1)}</td>
+                  <td className="py-3 px-3 text-right text-emerald-600 dark:text-emerald-400">{totalWeeklyDone.toFixed(1)}</td>
                   <td className="py-3 px-3 text-right text-amber-600 dark:text-amber-400">{totalWeeklyRemaining.toFixed(1)}</td>
                   <td className="py-3 px-3"></td>
                 </tr>
@@ -853,7 +897,6 @@ function Dashboard() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-
     </div>
   );
 }

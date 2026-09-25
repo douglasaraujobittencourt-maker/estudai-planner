@@ -12,12 +12,10 @@
     "format": "prettier --write ."
   },
   "dependencies": {
-    "@fontsource/epilogue": "^5.3.0",
     "@fontsource/figtree": "^5.3.0",
     "@fontsource/inter": "^5.2.8",
     "@fontsource/outfit": "^5.3.0",
     "@fontsource/space-grotesk": "^5.2.10",
-    "@fontsource/urbanist": "^5.3.0",
     "@hookform/resolvers": "^5.2.2",
     "@lovable.dev/cloud-auth-js": "^1.1.2",
     "@radix-ui/react-accordion": "^1.2.12",

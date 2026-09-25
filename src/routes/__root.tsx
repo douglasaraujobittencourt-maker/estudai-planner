@@ -1,11 +1,10 @@
-import "@fontsource/epilogue/400.css";
-import "@fontsource/epilogue/500.css";
-import "@fontsource/epilogue/600.css";
-import "@fontsource/epilogue/700.css";
-import "@fontsource/urbanist/600.css";
-import "@fontsource/urbanist/700.css";
-import "@fontsource/urbanist/800.css";
-import "@fontsource/urbanist/900.css";
+import "@fontsource/figtree/400.css";
+import "@fontsource/figtree/500.css";
+import "@fontsource/figtree/600.css";
+import "@fontsource/outfit/500.css";
+import "@fontsource/outfit/600.css";
+import "@fontsource/outfit/700.css";
+import "@fontsource/outfit/800.css";
 
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -117,7 +116,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="pt-BR">
+    <html lang="en">
       <head>
         <HeadContent />
       </head>

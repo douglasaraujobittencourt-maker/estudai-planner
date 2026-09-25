@@ -63,7 +63,7 @@ function SettingsPage() {
   });
 
   return (
-    <div className="app-page max-w-2xl space-y-6">
+    <div className="px-4 py-4 pb-24 sm:p-6 md:pb-8 max-w-2xl mx-auto space-y-6">
       <div>
         <h1 className="text-2xl sm:text-3xl font-bold flex items-center gap-2"><Settings2 className="w-6 h-6" /> Configurações</h1>
       </div>

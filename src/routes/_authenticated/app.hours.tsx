@@ -10,7 +10,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { Plus, Pencil, Trash2, Clock } from "lucide-react";
-import { SubjectIcon } from "@/components/subject-icon";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 
@@ -137,7 +136,7 @@ function HoursPage() {
   });
 
   return (
-    <div className="app-page space-y-6">
+    <div className="px-4 py-4 pb-24 sm:p-6 md:pb-8 max-w-7xl mx-auto space-y-6">
       <div className="flex items-end justify-between flex-wrap gap-3">
         <div>
           <h1 className="text-3xl font-bold">2 · Registro de horas</h1>
@@ -202,7 +201,7 @@ function HoursPage() {
                   <td className="py-2 pr-3 whitespace-nowrap">{r.session_date.split("-").reverse().join("/")}</td>
                   <td className="py-2 pr-3">
                     <span className="inline-flex items-center gap-2">
-                      <SubjectIcon name={r.subject?.name ?? "Matéria"} size="sm" />
+                      <span className="w-2 h-2 rounded-full shrink-0" style={{ background: r.subject?.color ?? "#94a3b8" }} />
                       <span className="truncate max-w-[180px] inline-block align-middle">{r.subject?.name ?? "—"}</span>
                     </span>
                   </td>

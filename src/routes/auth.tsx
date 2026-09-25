@@ -110,7 +110,7 @@ function AuthPage() {
     setLoading(true);
     try {
       const { error } = await supabase.auth.resetPasswordForEmail(normalizedEmail, {
-        redirectTo: "https://estudai-planner.lovable.app/reset-password",
+        redirectTo: window.location.origin + "/auth",
       });
       if (error) throw error;
       toast.success("Enviamos um link de recuperação para o seu e-mail.");

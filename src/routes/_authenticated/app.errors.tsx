@@ -10,7 +10,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
 import { BookOpen, Plus, Pencil, Trash2, Lock } from "lucide-react";
-import { SubjectIcon } from "@/components/subject-icon";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
@@ -93,7 +92,7 @@ function ErrorsPage() {
   const filteredErrors = errors.filter((e: any) => e.subject_id === selectedSubjectId);
 
   return (
-    <div className="app-page max-w-5xl space-y-6">
+    <div className="px-4 py-4 pb-24 sm:p-6 md:pb-8 max-w-5xl mx-auto space-y-6">
       <div className="flex items-center justify-between flex-wrap gap-3">
         <div>
           <h1 className="text-2xl sm:text-3xl font-bold flex items-center gap-2"><BookOpen className="w-6 h-6 text-primary" /> Caderno de Erros</h1>
@@ -104,7 +103,7 @@ function ErrorsPage() {
         )}
       </div>
 
-      <div className="flex flex-col gap-2 p-4 bg-card rounded-2xl border border-border/50 shadow-sm max-w-md">
+      <div className="flex flex-col gap-2 p-4 bg-card rounded-lg border border-border/50 max-w-md">
         <Label className="text-sm font-medium">Selecione a Matéria</Label>
         <Select value={selectedSubjectId} onValueChange={setSelectedSubjectId}>
           <SelectTrigger>
@@ -187,7 +186,7 @@ function ErrorsPage() {
           {filteredErrors.map((e: any) => (
             <Card key={e.id} className="p-4 card-elevated">
               <div className="flex items-start gap-3">
-                <SubjectIcon name={e.subject?.name ?? "Matéria"} />
+                <span className="w-2 h-2 mt-2 rounded-full" style={{ background: e.subject?.color ?? "#888" }} />
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap text-xs mb-1">
                     <Badge variant="outline">{e.subject?.name ?? "Sem matéria"}</Badge>

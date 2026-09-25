@@ -103,7 +103,7 @@ function PerformancePage() {
   const totalAllTimeHours = Object.values(yearlyHours).reduce((a, b) => a + b, 0);
 
   return (
-    <div className="app-page max-w-6xl space-y-6">
+    <div className="px-4 py-4 pb-24 sm:p-6 md:pb-8 max-w-6xl mx-auto space-y-6">
       {/* Header com seletor de período */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
@@ -166,12 +166,12 @@ function PerformancePage() {
           </div>
         </Card>
 
-        <Card className="p-4 card-elevated border-l-4 border-l-primary flex flex-col justify-between">
+        <Card className="p-4 card-elevated border-l-4 border-l-emerald-500 flex flex-col justify-between">
           <div className="text-xs font-medium text-muted-foreground flex items-center gap-1.5">
-            <CheckCircle2 className="w-4 h-4 text-primary" /> Questões Corretas
+            <CheckCircle2 className="w-4 h-4 text-emerald-500" /> Questões Corretas
           </div>
           <div className="mt-2">
-            <div className="text-2xl sm:text-3xl font-extrabold tracking-tight text-primary">{totalC}</div>
+            <div className="text-2xl sm:text-3xl font-extrabold tracking-tight text-emerald-600 dark:text-emerald-400">{totalC}</div>
             <p className="text-[11px] text-muted-foreground mt-0.5">
               Acertos confirmados
             </p>
@@ -224,7 +224,7 @@ function PerformancePage() {
                 let accColor = "text-muted-foreground";
                 let badgeVariant = "outline";
                 if (row.qDone > 0) {
-                  if (row.accuracy >= 80) accColor = "text-primary font-bold";
+                  if (row.accuracy >= 80) accColor = "text-emerald-600 dark:text-emerald-400 font-bold";
                   else if (row.accuracy >= 65) accColor = "text-amber-600 dark:text-amber-400 font-bold";
                   else accColor = "text-destructive font-bold";
                 }
@@ -258,7 +258,7 @@ function PerformancePage() {
                     </td>
 
                     {/* Questões Corretas */}
-                    <td className="py-3 px-3 text-right font-medium text-primary">
+                    <td className="py-3 px-3 text-right font-medium text-emerald-600 dark:text-emerald-400">
                       {row.qDone > 0 ? row.qCorrect : "—"}
                     </td>
 
@@ -271,7 +271,7 @@ function PerformancePage() {
                             <div
                               className={`h-full rounded-full ${
                                 row.accuracy >= 80
-                                  ? "bg-primary"
+                                  ? "bg-emerald-500"
                                   : row.accuracy >= 65
                                   ? "bg-amber-500"
                                   : "bg-destructive"
@@ -288,7 +288,7 @@ function PerformancePage() {
                     {/* Status / Modo */}
                     <td className="py-3 px-3 text-center">
                       {row.study_status === "finalized" ? (
-                        <Badge variant="secondary" className="text-[10px] bg-primary/15 text-primary font-bold">
+                        <Badge variant="secondary" className="text-[10px] bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 font-bold">
                           🎓 Modo Revisão
                         </Badge>
                       ) : (
@@ -306,7 +306,7 @@ function PerformancePage() {
                 <td className="py-3 px-3">TOTAL GERAL</td>
                 <td className="py-3 px-3 text-right text-primary">{totalHours}h</td>
                 <td className="py-3 px-3 text-right text-foreground">{totalQ}</td>
-                <td className="py-3 px-3 text-right text-primary">{totalC}</td>
+                <td className="py-3 px-3 text-right text-emerald-600 dark:text-emerald-400">{totalC}</td>
                 <td className="py-3 px-3 text-right text-violet-600 dark:text-violet-400">{overallAccuracy}%</td>
                 <td className="py-3 px-3"></td>
               </tr>

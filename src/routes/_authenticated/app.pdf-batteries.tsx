@@ -34,7 +34,7 @@ function PdfBatteriesPage() {
   };
 
   return (
-    <div className="app-page max-w-6xl space-y-6">
+    <div className="px-4 py-4 pb-24 sm:p-6 md:pb-8 max-w-6xl mx-auto space-y-6">
       <div>
         <h1 className="text-2xl sm:text-3xl font-bold flex items-center gap-2">
           <Layers className="w-8 h-8 text-primary" />
@@ -115,7 +115,7 @@ function PdfBatteriesPage() {
                     </span>
                   </div>
 
-                  <div className="bg-background/80 p-3 rounded-2xl border text-sm max-h-40 overflow-y-auto font-mono flex flex-wrap gap-1">
+                  <div className="bg-background/80 p-3 rounded-lg border text-sm max-h-40 overflow-y-auto font-mono flex flex-wrap gap-1">
                     {block.map((num) => (
                       <span key={num} className="px-1.5 py-0.5 bg-muted rounded text-xs">
                         {num}

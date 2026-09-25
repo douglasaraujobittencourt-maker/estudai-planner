@@ -15,7 +15,6 @@ import { useStudyTimer } from "@/hooks/use-study-timer";
 import { playAlarm } from "@/lib/alarm";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
-import { SubjectIcon } from "@/components/subject-icon";
 
 
 export const Route = createFileRoute("/_authenticated/app/study")({
@@ -134,7 +133,7 @@ function StudyPage() {
 
 
   return (
-    <div className="app-page max-w-4xl space-y-6">
+    <div className="px-4 py-4 pb-24 sm:p-6 md:pb-8 max-w-4xl mx-auto space-y-6">
       <div>
         <h1 className="text-3xl font-bold">Bora Estudar</h1>
         <p className="text-muted-foreground text-sm">Cronômetro regressivo — você define o tempo. Continua rodando em 2º plano ao navegar entre as abas.</p>
@@ -182,7 +181,7 @@ function StudyPage() {
                       <span className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ background: s.color || "#0284C7" }} />
                       <span>{s.name}</span>
                       {s.study_status === "finalized" && (
-                        <span className="text-[10px] bg-primary/15 text-primary px-1.5 py-0.5 rounded-full font-semibold">
+                        <span className="text-[10px] bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 px-1.5 py-0.5 rounded-full font-semibold">
                           🎓 Modo Revisão
                         </span>
                       )}
@@ -196,7 +195,7 @@ function StudyPage() {
               return sel ? (
                 <div className="flex items-center justify-between mt-1 text-xs text-muted-foreground">
                   <span>📖 Lido: <strong className="text-foreground">{sel.pages_read}</strong> de {sel.pages || 0} pgs</span>
-                  <span className={sel.study_status === "finalized" ? "text-primary font-semibold" : "text-sky-600 font-semibold"}>
+                  <span className={sel.study_status === "finalized" ? "text-emerald-600 font-semibold" : "text-sky-600 font-semibold"}>
                     {sel.study_status === "finalized" ? "🎓 Teoria Finalizada" : "📘 Modo Teoria"}
                   </span>
                 </div>
@@ -246,12 +245,12 @@ function StudyPage() {
           </div>
 
           {/* Opção 2: Matéria inteira finalizada */}
-          <div className="flex items-start space-x-3 p-3 rounded-xl bg-primary/5 border border-primary/20">
+          <div className="flex items-start space-x-3 p-3 rounded-xl bg-emerald-500/5 border border-emerald-500/20">
             <Checkbox
               id="subjectFinished"
               checked={isSubjectFinished}
               onCheckedChange={(checked) => setIsSubjectFinished(!!checked)}
-              className="mt-0.5"
+              className="mt-0.5 data-[state=checked]:bg-emerald-600 data-[state=checked]:border-emerald-600"
             />
             <div className="space-y-0.5 leading-none">
               <Label htmlFor="subjectFinished" className="text-sm font-semibold cursor-pointer text-foreground flex items-center gap-1.5">
@@ -281,8 +280,8 @@ function StudyPage() {
         {todaySessions.length === 0 && <p className="text-sm text-muted-foreground">Nada registrado ainda hoje.</p>}
         <ul className="space-y-2">
           {todaySessions.map((s: any) => (
-            <li key={s.id} className="flex items-center gap-3 text-sm p-3 rounded-2xl border border-border/50">
-              <SubjectIcon name={s.subject?.name ?? "Matéria"} size="sm" />
+            <li key={s.id} className="flex items-center gap-3 text-sm p-2 rounded-md border border-border/50">
+              <span className="w-2 h-2 rounded-full" style={{ background: s.subject?.color ?? "#666" }} />
               <span className="flex-1">{s.subject?.name ?? "Sem matéria"} · <span className="text-muted-foreground">{s.kind}</span></span>
               <span className="text-muted-foreground text-xs">{s.minutes} min · {s.pages_read} pg · {s.questions_correct}/{s.questions_done} q</span>
               <Button size="icon" variant="ghost" onClick={() => setEditSession({

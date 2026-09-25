@@ -12,7 +12,6 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Zap, Check, X, RotateCw, Plus, Pencil, Trash2, BookOpen, Lock } from "lucide-react";
-import { SubjectIcon } from "@/components/subject-icon";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
@@ -110,7 +109,7 @@ function FlashcardsPage() {
   }, [allCards, selectedSubjectId]);
 
   return (
-    <div className="app-page max-w-3xl space-y-6">
+    <div className="px-4 py-4 pb-24 sm:p-6 md:pb-8 max-w-3xl mx-auto space-y-6">
       <div className="flex items-start justify-between gap-3">
         <div>
           <h1 className="text-2xl sm:text-3xl font-bold flex items-center gap-2"><Zap className="w-6 h-6 text-accent" /> Flashcards</h1>
@@ -121,7 +120,7 @@ function FlashcardsPage() {
         )}
       </div>
 
-      <div className="flex flex-col gap-2 p-4 bg-card rounded-2xl border border-border/50 shadow-sm max-w-md">
+      <div className="flex flex-col gap-2 p-4 bg-card rounded-lg border border-border/50 max-w-md">
         <Label className="text-sm font-medium">Selecione a Matéria</Label>
         <Select value={selectedSubjectId} onValueChange={(v) => { setSelectedSubjectId(v); setIdx(0); setFlipped(false); }}>
           <SelectTrigger>
@@ -159,7 +158,7 @@ function FlashcardsPage() {
               <div className="flex items-center justify-between text-xs text-muted-foreground">
                 <span>{idx + 1} / {filteredCards.length}</span>
                 <Badge variant="outline">Caixa {card.box}</Badge>
-                <SubjectIcon name={card.subject?.name ?? "Matéria"} size="sm" />
+                <span className="w-2 h-2 rounded-full" style={{ background: card.subject?.color ?? "#666" }} />
               </div>
               <Card
                 onClick={() => setFlipped((f) => !f)}
@@ -196,9 +195,10 @@ function FlashcardsPage() {
             ) : (
               <div className="space-y-4">
                 {groupedCards.map(([key, group]) => (
-                  <div key={key} className="rounded-2xl border border-border/50 overflow-hidden">
+                  <div key={key} className="rounded-lg border border-border/50 overflow-hidden">
                     <div className="flex items-center gap-2 px-3 py-2 bg-muted/40">
-                      <SubjectIcon name={group.subject?.name ?? "Matéria"} size="sm" />
+                      <BookOpen className="w-4 h-4 text-muted-foreground" />
+                      <span className="w-2 h-2 rounded-full" style={{ background: group.subject?.color ?? "#666" }} />
                       <span className="font-medium text-sm">{group.subject?.name ?? "Sem matéria"}</span>
                       <Badge variant="outline" className="ml-auto text-[10px]">{group.cards.length}</Badge>
                     </div>

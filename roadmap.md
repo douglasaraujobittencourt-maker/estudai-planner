@@ -1,5 +1,1 @@
 - [x] Corrigir erros de typecheck reportados no build-errors.log
-- [x] Remover o resumo superior do dashboard
-- [x] Aplicar o design system Royal/Laranja e dark navy globalmente
-- [x] Padronizar cabeçalho, barra inferior, cartões e ícones de matérias
-- [x] Remover o alternador de tema duplicado da barra lateral
